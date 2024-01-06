@@ -1,6 +1,6 @@
 import Joi from "joi";
-import { User } from "../../models";
-import CustomeErrorHandler from "../../services/CustomeErrorHandler";
+import { User } from "../models";
+import CustomeErrorHandler from "../services/CustomeErrorHandler";
 const registerController = {
   async register(req, res, next) {
     //validate request
