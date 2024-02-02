@@ -1,6 +1,9 @@
 import Joi from "joi";
+import { User } from "../../models";
+
+import CustomeErrorHandler from "../../services/CustomeErrorHandler.js";
 const registerController = {
-  register(req, res, next) {
+  async register(req, res, next) {
     //validate request
 
     const registerSchema = Joi.object({
@@ -19,6 +22,20 @@ const registerController = {
       //middlware can't catch all type of error specially async function error we have to do it like this
       return next(error);
     }
+
+    // check if user is in the database
+
+    try {
+      const exist = await User.exists({ email: req.body.email });
+      if (exist) {
+        return next(
+          CustomeErrorHandler.alreadyExist("This email is already exists")
+        );
+      }
+    } catch (err) {
+      return next(err);
+    }
+
     res.json({ message: "Hello from express" });
   },
 };

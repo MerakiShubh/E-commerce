@@ -1,12 +1,31 @@
 import express from "express";
 import { APP_PORT } from "./config";
-const app = express();
 import routes from "./routes";
-app.use(express.json());
 import errorHandler from "./middlewares/errorHandler";
-app.use("/api", routes);
-//Dyan rahe middleware register hogi app.listen ke upar
+import connectDB from "./db";
 
+const app = express();
+
+// Middleware
+app.use(express.json());
+
+// Routes
+app.use("/api", routes);
+
+// Error Handling Middleware
 app.use(errorHandler);
 
-app.listen(APP_PORT, () => console.log(`Listening on port ${APP_PORT}`));
+// Connect to Database
+connectDB()
+  .then(() => {
+    app.listen(APP_PORT, (err) => {
+      if (err) {
+        console.error(`Error starting server: ${err}`);
+        return;
+      }
+      console.log(`Listening on port ${APP_PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("MongoDB connection failed!!", err);
+  });
