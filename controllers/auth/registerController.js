@@ -1,5 +1,5 @@
 import Joi from "joi";
-// import { User } from "../../models";
+import { User } from "../../models";
 
 import CustomeErrorHandler from "../../services/CustomeErrorHandler.js";
 const registerController = {
