@@ -14,6 +14,14 @@ class CustomeErrorHandler extends Error {
   static wrongCredentials(message) {
     return new CustomeErrorHandler(401, message);
   }
+
+  static unAuthorized(message) {
+    return new CustomeErrorHandler(401, message);
+  }
+
+  static notFound(message) {
+    return new CustomeErrorHandler(404, message);
+  }
 }
 
 export default CustomeErrorHandler;

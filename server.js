@@ -3,6 +3,7 @@ import { APP_PORT } from "./config";
 import routes from "./routes";
 import errorHandler from "./middlewares/errorHandler";
 import connectDB from "./db";
+import auth from "./middlewares/auth";
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use("/api", routes);
 
 // Error Handling Middleware
 app.use(errorHandler);
+app.use(auth);
 
 // Connect to Database
 connectDB()
