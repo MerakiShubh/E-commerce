@@ -8,7 +8,7 @@ const errorHandler = (err, req, res, next) => {
 
     //sending original server error to client is not safe so apply a security check
 
-    ...(DEBUG_MODE === "true" && { originalError: err.messgae }),
+    ...(DEBUG_MODE === "true" && { originalError: err.message }),
   };
 
   if (err instanceof ValidationError) {
