@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 import Joi from "joi";
 import CustomeErrorHandler from "../services/CustomeErrorHandler";
-import { compareSync } from "bcrypt";
+import productSchema from "../validators/productValidator";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "uploads/"),
@@ -63,6 +63,57 @@ const productController = {
           size,
           image: filePath,
         });
+      } catch (error) {
+        return next(error);
+      }
+
+      res.json(document);
+    });
+  },
+
+  update(req, res, next) {
+    handleMultipartData(req, res, async (err) => {
+      if (err) {
+        return next(CustomeErrorHandler.serverError(err.message));
+      }
+      let filePath;
+      if (req.file) {
+        filePath = req.file.path;
+      }
+
+      const { error } = productSchema.validate(req.body);
+
+      if (error) {
+        if (req.file) {
+          fs.unlink(`${appRoot}/${filePath}`, (err) => {
+            if (err) {
+              return next(CustomeErrorHandler.serverError(err.message));
+              // console.log(err.message);
+            }
+          });
+        }
+        return next(error);
+      }
+
+      //saving product details to db
+
+      const { name, price, size } = req.body;
+
+      let document;
+
+      try {
+        document = await product.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            name,
+            price,
+            size,
+            ...(req.file && {
+              image: filePath,
+            },
+            { new: true }),
+          }
+        );
       } catch (error) {
         return next(error);
       }
