@@ -4,10 +4,14 @@ import routes from "./routes";
 import errorHandler from "./middlewares/errorHandler";
 import connectDB from "./db";
 import auth from "./middlewares/auth";
+import path from "path";
 
 const app = express();
 
+global.appRoot = path.resolve(__dirname);
+
 // Middleware
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Routes
