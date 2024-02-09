@@ -42,8 +42,10 @@ const productController = {
       if (error) {
         //if validation gets failed then delete uploaded image
         fs.unlink(`${appRoot}/${filePath}`, (err) => {
-          console.log(err.message);
-          return next(CustomeErrorHandler.serverError(err.message));
+          if (err) {
+            return next(CustomeErrorHandler.serverError(err.message));
+            // console.log(err.message);
+          }
         });
         return next(error);
       }
