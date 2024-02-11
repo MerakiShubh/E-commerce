@@ -18,5 +18,6 @@ router.post("/logout", auth, loginController.logout);
 
 router.post("/products", [auth, admin], productController.store);
 router.put("/product/:id", [auth, admin], productController.update);
+router.put("/delete/:id", [auth, admin], productController.distroy);
 
 export default router;
