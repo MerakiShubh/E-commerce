@@ -122,7 +122,7 @@ const productController = {
     });
   },
 
-  async destory(req, res, next) {
+  async destroy(req, res, next) {
     const document = await product.findOneAndRemove({ _id: req.params.id });
     if (!document) {
       return next(new Error("Nothing to delete"));
