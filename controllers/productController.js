@@ -151,6 +151,18 @@ const productController = {
     }
     return res.json(documents);
   },
+
+  async show(req, res, next) {
+    let document;
+    try {
+      document = await product
+        .findOne({ _id: req.params.id })
+        .select("-updatedAt -__v");
+    } catch (error) {
+      return next(CustomeErrorHandler.serverError());
+    }
+    return res.json(document);
+  },
 };
 
 export default productController;
