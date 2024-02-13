@@ -16,6 +16,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api", routes);
+app.use("/uploads", express.static("uploads"));
 
 // Error Handling Middleware
 app.use(errorHandler);
