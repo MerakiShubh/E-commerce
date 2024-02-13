@@ -7,4 +7,5 @@ export const {
   MONOGODB_URI,
   JWT_SECRET,
   REFRESH_SECRET,
+  APP_URL,
 } = process.env;
